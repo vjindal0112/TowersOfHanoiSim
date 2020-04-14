@@ -16,8 +16,13 @@ class Ring:
 
   def draw(self):
     pygame.draw.rect(screen, (255, 0, 0), ((self.x, self.y), (self.length, self.height)))
+
+  def setPos(self, pos):
+    # assumes that pos is the coordinates of the center of the ring
+    self.x = pos[0] - (self.length / 2)
+    self.y = pos[1] - (constant.RING_HEIGHT / 2)
   
-  
+
 
 class Pole:
   def __init__(self, x_pos, y_pos):
@@ -28,23 +33,28 @@ class Pole:
     pygame.draw.rect(screen, (0,0,0), ((self.x, self.y), (constant.POLE_WIDTH, constant.POLE_HEIGHT)))
 
 
+def drawBackground():
+  screen.fill((245,245,245))
+
+
+
 def main():
   done = False
-  createRect = False
+  ring0 = Ring(0,'black')
+  ring1 = Ring(1, 'black')
+  ring2 = Ring(2, 'black')
+  ring5 = Ring(5, 'black')
+  pole1 = Pole(constant.POLE1_X_POS, constant.POLE1_Y_POS)
+  pole2 = Pole(constant.POLE2_X_POS, constant.POLE2_Y_POS)
+  pole3 = Pole(constant.POLE3_X_POS, constant.POLE3_Y_POS)
   while not done:
           for event in pygame.event.get():
                   if event.type == pygame.QUIT:
                           done = True
-          if not createRect:
-            ring0 = Ring(0,'black')
-            ring1 = Ring(1, 'black')
-            ring2 = Ring(2, 'black')
-            ring5 = Ring(5, 'black')
-            pole1 = Pole(constant.POLE1_X_POS, constant.POLE1_Y_POS)
-            pole2 = Pole(constant.POLE2_X_POS, constant.POLE2_Y_POS)
-            pole3 = Pole(constant.POLE3_X_POS, constant.POLE3_Y_POS)
-            createRect = True
-          
+          drawBackground()
+          if pygame.mouse.get_pressed() == (1,0,0):
+            pygame.display.set_caption(str(pygame.mouse.get_pos()))
+            ring0.setPos(pygame.mouse.get_pos())
           pole1.draw()
           pole2.draw()
           pole3.draw()
